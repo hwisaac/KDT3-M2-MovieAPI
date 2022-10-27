@@ -1,0 +1,43 @@
+.movies {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 50px 10px;
+}
+.movie {
+  --size: 300px;
+  width: var(--size);
+  height: calc(var(--size) * 3 / 2);
+  overflow: hidden;
+  position: relative;
+  border-radius: 10px;
+}
+.movie h1 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  padding: 20px 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  color: white;
+}
+.movie img {
+  width: 100%;
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+.btn--more {
+  font-size: 40px;
+  padding: 20px 40px;
+  background-color: orange;
+  display: inline-block;
+  border-radius: 10px;
+  cursor: pointer;
+}
