@@ -1,12 +1,12 @@
 .movies {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   justify-content: center;
   gap: 10px;
   padding: 50px 10px;
+  grid-template-columns: repeat(5, 1fr);
 }
 .movie {
-  --size: 300px;
+  --size: 200px;
   width: var(--size);
   height: calc(var(--size) * 3 / 2);
   overflow: hidden;
@@ -14,20 +14,25 @@
   border-radius: 10px;
 }
 .movie h1 {
+  /* display: none; */
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
+  /* height: 30%; */
   margin: auto;
   text-align: center;
-  padding: 20px 0;
+  padding: 10px 0;
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
   color: white;
+  font-size: 20px;
 }
 .movie img {
   width: 100%;
 }
+
+/* more 버튼디자인 */
 .actions {
   display: flex;
   justify-content: center;
