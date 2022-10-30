@@ -26,6 +26,9 @@ function renderMovies(movies) {
     return;
   }
   for (const movie of movies) {
+    // console.dir(movie);
+    // const aTag = document.createElement("a");
+    // aTag.setAttribute("href", "");  라우트 배우고 imdb 로 보내야 될듯
     const el = document.createElement("div");
     el.classList.add("movie");
 
@@ -82,10 +85,12 @@ searchBtnEl.addEventListener("click", async (event) => {
   let type = searchGenreEl.value;
   let y = searchYearEl.value;
   let searchNumber = searchNumberEl.value;
+
   console.log("searchNumber :", searchNumber);
   if (searchText) {
     const movies = await getMovies(searchText, type, y, page);
     renderMovies(movies);
+
     for (let i = 0; i < searchNumber; i++) {
       console.log("more작동!");
       handleMoreBtn();
