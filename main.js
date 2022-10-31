@@ -27,7 +27,10 @@ for (let i = 2022; i > 1990; i--) {
 //해쉬 바뀔 때 라우팅 효과 주기
 window.addEventListener("hashchange", () => {
   const hashValue = location.hash.slice(1);
-  if (hashValue === "search") {
+  console.log("해쉬값 ", hashValue);
+  if (hashValue === "") {
+    renderSearchPage();
+  } else if (hashValue === "search") {
     renderSearchPage();
   } else if (hashValue === "movie") {
     console.log("movie 로 이동!");
@@ -37,9 +40,6 @@ window.addEventListener("hashchange", () => {
       renderMovieDetail(inputID);
     }
     console.log("inputID: ", inputID);
-    // if (movieDeta) {
-    //   renderOneMovie(inputID);
-    // }
   } else if (hashValue === "about") {
     console.log("about 입니다.");
     renderAboutPage();
