@@ -12,7 +12,7 @@ const releasedEl = document.querySelector(".container .released");
 const runtimeEl = document.querySelector(".container .runtime");
 const countryEl = document.querySelector(".container .country");
 
-export const getOneMovie = async (id = "tt1285016") => {
+const getOneMovie = async (id = "tt1285016") => {
   // const id = "tt1285016";
   const url = `https://omdbapi.com/?apikey=7035c60c&i=${id}`;
 

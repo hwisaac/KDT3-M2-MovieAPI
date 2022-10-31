@@ -46,3 +46,7 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.btn--more.hidden {
+  display: none;
+}

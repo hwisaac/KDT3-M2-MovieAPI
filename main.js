@@ -1,17 +1,21 @@
-import { getOneMovie } from "./src/js/movie.js";
-
+// import { getOneMovie } from "./src/js/movie.js";
+import renderMovieDetail from "./src/js/renderMovieDetail.js";
+import renderSearchPage from "./src/js/renderSearchPage.js";
+import renderAboutPage from "./src/js/renderAboutPage.js";
+// renderMovieDetail();
 //////////////////// 초기화 코드들~
+let inputID = "#tt4154756";
 const moviesEl = document.querySelector(".movies");
-const moreBtnEl = document.querySelector(".btn--more");
+export const moreBtnEl = document.querySelector(".btn--more");
 const searchBtnEl = document.querySelector(".search__btn");
 const searchTextEl = document.querySelector(".search__text");
 const searchGenreEl = document.querySelector(".search__genre");
 const searchNumberEl = document.querySelector(".search__number");
 const searchYearEl = document.querySelector(".search__year");
-const movieDetailEl = document.querySelector(".movie-detail");
+export const movieDetailEl = document.querySelector(".movie-detail");
 
 let searchText = searchTextEl.value || "avengers";
-let page = 1;
+export let page = 1;
 
 for (let i = 2022; i > 1990; i--) {
   const optionEl = document.createElement("option");
@@ -20,26 +24,34 @@ for (let i = 2022; i > 1990; i--) {
   searchYearEl.append(optionEl);
 }
 
-/////////////// 함수 선언
-// const rederOneMovieSPA = async (movieData) => {
-//   let threeRates = "";
-//   const {
-//     Title,
-//     Actors,
-//     Country,
-//     Genre,
-//     Plot,
-//     Poster,
-//     Ratings,
-//     Released,
-//     Director,
-//     Production,
-//     Runtime,
-//   } = movieData;
+//해쉬 바뀔 때 라우팅 효과 주기
+window.addEventListener("hashchange", () => {
+  const hashValue = location.hash.slice(1);
+  if (hashValue === "search") {
+    renderSearchPage();
+  } else if (hashValue === "movie") {
+    console.log("movie 로 이동!");
+    initMovies();
+    initDetails();
+    if (inputID) {
+      renderMovieDetail(inputID);
+    }
+    console.log("inputID: ", inputID);
+    // if (movieDeta) {
+    //   renderOneMovie(inputID);
+    // }
+  } else if (hashValue === "about") {
+    console.log("about 입니다.");
+    renderAboutPage();
+  } else {
+    // ID 해쉬를 받은 경우
+    console.log("id해쉬로 디테일 랜더링");
+    inputID = location.hash.slice(1);
+    renderMovieDetail();
+  }
+});
 
-// };
-
-function renderMovies(movies) {
+export function renderMovies(movies) {
   if (!movies) {
     console.log("movies가 존재하지 않습니다!");
     return;
@@ -48,7 +60,7 @@ function renderMovies(movies) {
     const imdbID = movie.imdbID;
 
     const aTag = document.createElement("a");
-    aTag.setAttribute("href", `/#${imdbID}`); // 라우트 배우고 imdb 로 보내야 될듯
+    aTag.setAttribute("href", `/#${imdbID}`);
     const el = document.createElement("div");
     el.classList.add("movie");
 
@@ -61,71 +73,21 @@ function renderMovies(movies) {
     aTag.append(el);
     moviesEl.append(aTag);
   }
+  moreBtnEl.classList.remove("hidden");
 }
 // 영화 클릭했을 때 싱글 영화 상세페이지 랜더링
-window.addEventListener("hashchange", async () => {
-  const id = location.hash.slice(1); // 아이디받아오기
-  initMovies(); // 무비 리스트 모두삭제
 
-  // 1. header 랜더
-  // 2. 무비 상세 페이지 렌더
-  const movieData = await getOneMovie(id);
-  const {
-    Title,
-    Actors,
-    Country,
-    Genre,
-    Plot,
-    Poster,
-    Ratings,
-    Released,
-    Director,
-    Production,
-    Runtime,
-  } = movieData;
-  movieDetailEl.innerHTML = `<div class="container">
-  <img src="${Poster}" class="poster"></div>
-  <div class="movie-info">
-    <h1 class="title">${Title}</h1>
-    <div class="short-info">
-      <div class="released">${Released}</div>
-      <div class="runtime">${Runtime}</div>
-      <div class="country">${Country}</div>
-    </div>
-    <div class="plot">${Plot}</div>
-    <div class="item-ratings">
-      <h2>Ratings</h2>
-      <div class="ratings">${Ratings[0].Source}: ${Ratings[0].Value} </div>
-    </div>
-    <div class="item-actors">
-      <h2>Actors</h2>
-      <div class="actors">${Actors}</div>
-    </div>
-    <div class="item-director">
-      <h2>Director</h2>
-      <div class="director">${Director}</div>
-    </div>
-    <div class="item-production">
-      <h2>Production</h2>
-      <div class="production">${Production}</div>
-    </div>
-    <div class="item-genre">
-      <h2>Genre</h2>
-      <div class="genre">${Genre}</div>
-    </div>
-  </div>
-</div>`;
-});
 // 무비 리스트 초기화 함수
-function initMovies() {
+export function initMovies() {
   moviesEl.innerHTML = ""; // 영화 리스트 초기화
   page = 1; // page 초기화
+  moreBtnEl.classList.add("hidden");
 }
-function initDetails() {
-  movieDetailEl.innerHTML = ""; // 영화 상세정보 초기화
+export function initDetails() {
+  movieDetailEl.innerHTML = "";
 }
 
-async function getMovies(
+export async function getMovies(
   searchText = "avengers",
   type = "movie",
   y = "",
