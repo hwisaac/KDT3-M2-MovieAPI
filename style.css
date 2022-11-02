@@ -1,3 +1,6 @@
+a {
+  text-decoration: none;
+}
 .movies {
   display: grid;
   justify-content: center;
@@ -31,6 +34,16 @@
 .movie img {
   width: 100%;
 }
+.movie div.no-poster {
+  background-color: aqua;
+  color: black;
+  font-weight: 700;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
 
 /* more 버튼디자인 */
 .actions {
@@ -47,6 +60,6 @@
   cursor: pointer;
 }
 
-.btn--more.hidden {
+.hidden {
   display: none;
 }

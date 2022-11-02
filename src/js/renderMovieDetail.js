@@ -6,7 +6,6 @@ export const getOneMovie = async (id = "tt1285016") => {
   // console.log(url);
   const res = await fetch(url);
 
-  // movieData =  { Title, Actors, Country, Genre, Plot, Poster, Ratings, Released ,... }
   const movieData = await res.json();
   return movieData;
 };
@@ -38,8 +37,10 @@ export default async function renderMovieDetail(inputID) {
     Production,
     Runtime,
   } = movieData;
+  const editedPoster = Poster.replace("SX300", "SX700");
+  console.log(movieData);
   movieDetailEl.innerHTML = `<div class="container">
-    <img src="${Poster}" class="poster"></div>
+    <img src="${editedPoster}" class="poster"></div>
     <div class="movie-info">
       <h1 class="title">${Title}</h1>
       <div class="short-info">
@@ -70,4 +71,8 @@ export default async function renderMovieDetail(inputID) {
       </div>
     </div>
   </div>`;
+  if (Poster === "N/A") {
+    const noPostEl = document.querySelector(".movie-detail .container .poster");
+    noPostEl.src = "";
+  }
 }
