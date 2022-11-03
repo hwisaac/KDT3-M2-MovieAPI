@@ -4,7 +4,7 @@ import renderSearchPage from "./src/js/renderSearchPage.js";
 import renderAboutPage from "./src/js/renderAboutPage.js";
 
 //////////////////// 초기화 코드들~
-let inputID = "#tt4154756";
+let inputID = "tt4154756";
 const moviesEl = document.querySelector(".movies");
 export const moreBtnEl = document.querySelector(".btn--more");
 export const movieDetailEl = document.querySelector(".movie-detail");
@@ -15,6 +15,7 @@ const searchTextEl = document.querySelector(".search__text");
 const searchGenreEl = document.querySelector(".search__genre");
 const searchNumberEl = document.querySelector(".search__number");
 const searchYearEl = document.querySelector(".search__year");
+let infiniteScroll = true; // 무한스크롤 작동 여부
 
 let searchText = searchTextEl.value || "avengers";
 export let page = 1;
@@ -35,26 +36,34 @@ window.addEventListener("hashchange", () => {
     // 홈으로 간경우 서치페이지 랜더링해라
     renderSearchPage();
     searchBarEl.classList.remove("hidden");
+    infiniteScroll = true;
   } else if (hashValue === "search") {
     // 검색(=홈)으로 간경우 서치페이지 랜더링해라
     renderSearchPage();
     searchBarEl.classList.remove("hidden");
+    infiniteScroll = true;
   } else if (hashValue === "movie") {
     // 무비로 간경우 무비디테일 랜더링해라
     initMovies();
     initDetails();
     searchBarEl.classList.add("hidden");
+    infiniteScroll = false;
     if (inputID) {
+      console.log("inputID 로 랜더링");
+      inputID = inputID.replaceAll("#", "");
       renderMovieDetail(inputID);
     }
   } else if (hashValue === "about") {
     // about로 가면 aboutpage를 랜더링해라
     renderAboutPage();
     searchBarEl.classList.add("hidden");
+    infiniteScroll = false;
   } else {
     // ID 해쉬를 받은 경우
     renderMovieDetail();
     searchBarEl.classList.add("hidden");
+    infiniteScroll = false;
+    inputID = hashValue;
   }
 });
 
@@ -158,3 +167,27 @@ searchBtnEl.addEventListener("click", async (event) => {
 /// body clcik
 const bodyEl = document.querySelector("body");
 bodyEl.addEventListener("click", () => {});
+
+const detectBottom = () => {
+  console.log("detectBottom 작동");
+  let scrollTop = document.documentElement.scrollTop;
+  let innerHeight = window.innerHeight;
+  let bodyScrollHeight = document.body.scrollHeight;
+
+  if (scrollTop + innerHeight >= bodyScrollHeight) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+window.addEventListener(
+  "scroll",
+  _.throttle(() => {
+    if (detectBottom() && infiniteScroll) {
+      // 최하단에 도착하면 more 버튼 작동!
+      console.log("more 작동!");
+      handleMoreBtn();
+    }
+  }, 1000)
+);

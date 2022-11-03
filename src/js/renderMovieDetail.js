@@ -1,9 +1,9 @@
 import { initMovies, movieDetailEl } from "../../main.js";
 
 export const getOneMovie = async (id = "tt1285016") => {
-  const url = `https://omdbapi.com/?apikey=7035c60c&i=${id}`;
+  const url = `https://omdbapi.com/?apikey=7035c60c&i=${id}&plot=full`;
 
-  // console.log(url);
+  console.log(url);
   const res = await fetch(url);
 
   const movieData = await res.json();
@@ -18,12 +18,11 @@ export default async function renderMovieDetail(inputID) {
   initMovies(); // 무비 리스트 모두삭제
 
   if (!inputID) {
-    id = location.hash.slice(1); //
+    id = location.hash.replace("#", "");
   } else {
-    id = inputID;
+    id = inputID.replace("#", "");
   }
   movieData = await getOneMovie(id);
-
   const {
     Title,
     Actors,
@@ -38,7 +37,15 @@ export default async function renderMovieDetail(inputID) {
     Runtime,
   } = movieData;
   const editedPoster = Poster.replace("SX300", "SX700");
+
   console.log(movieData);
+
+  let rateLists = "";
+  console.log(Ratings);
+
+  for (let i = 0; i < Ratings.length; i++) {
+    rateLists += `<img class="rating-img" src="./src/img/${Ratings[i].Source}.png"> ${Ratings[i].Value} `;
+  }
   movieDetailEl.innerHTML = `<div class="container">
     <img src="${editedPoster}" class="poster"></div>
     <div class="movie-info">
@@ -51,7 +58,7 @@ export default async function renderMovieDetail(inputID) {
       <div class="plot">${Plot}</div>
       <div class="item-ratings">
         <h2>Ratings</h2>
-        <div class="ratings">{Ratings[0].Source}: {Ratings[0].Value} </div>
+        <div class="ratings">${rateLists}</div>
       </div>
       <div class="item-actors">
         <h2>Actors</h2>
