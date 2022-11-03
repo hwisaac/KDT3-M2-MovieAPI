@@ -1,14 +1,24 @@
+// import { getOneMovie } from "./src/js/movie.js";
+import renderMovieDetail from "./src/js/renderMovieDetail.js";
+import renderSearchPage from "./src/js/renderSearchPage.js";
+import renderAboutPage from "./src/js/renderAboutPage.js";
+
 //////////////////// 초기화 코드들~
+let inputID = "tt4154756";
 const moviesEl = document.querySelector(".movies");
-const moreBtnEl = document.querySelector(".btn--more");
+export const moreBtnEl = document.querySelector(".btn--more");
+export const movieDetailEl = document.querySelector(".movie-detail");
+
+const searchBarEl = document.querySelector(".search-bar");
 const searchBtnEl = document.querySelector(".search__btn");
 const searchTextEl = document.querySelector(".search__text");
 const searchGenreEl = document.querySelector(".search__genre");
 const searchNumberEl = document.querySelector(".search__number");
 const searchYearEl = document.querySelector(".search__year");
+let infiniteScroll = true; // 무한스크롤 작동 여부
 
-let searchText = searchTextEl.value;
-let page = 1;
+let searchText = searchTextEl.value || "avengers";
+export let page = 1;
 
 for (let i = 2022; i > 1990; i--) {
   const optionEl = document.createElement("option");
@@ -17,41 +27,88 @@ for (let i = 2022; i > 1990; i--) {
   searchYearEl.append(optionEl);
 }
 
-/////////////// 함수 선언
+//해쉬 바뀔 때 라우팅 효과 주기
+window.addEventListener("hashchange", () => {
+  const hashValue = location.hash.slice(1);
+  console.log("해쉬값 ", hashValue);
 
-function renderMovies(movies) {
-  console.log(movies);
+  if (hashValue === "") {
+    // 홈으로 간경우 서치페이지 랜더링해라
+    renderSearchPage();
+    searchBarEl.classList.remove("hidden");
+    infiniteScroll = true;
+  } else if (hashValue === "search") {
+    // 검색(=홈)으로 간경우 서치페이지 랜더링해라
+    renderSearchPage();
+    searchBarEl.classList.remove("hidden");
+    infiniteScroll = true;
+  } else if (hashValue === "movie") {
+    // 무비로 간경우 무비디테일 랜더링해라
+    initMovies();
+    initDetails();
+    searchBarEl.classList.add("hidden");
+    infiniteScroll = false;
+    if (inputID) {
+      console.log("inputID 로 랜더링");
+      inputID = inputID.replaceAll("#", "");
+      renderMovieDetail(inputID);
+    }
+  } else if (hashValue === "about") {
+    // about로 가면 aboutpage를 랜더링해라
+    renderAboutPage();
+    searchBarEl.classList.add("hidden");
+    infiniteScroll = false;
+  } else {
+    // ID 해쉬를 받은 경우
+    renderMovieDetail();
+    searchBarEl.classList.add("hidden");
+    infiniteScroll = false;
+    inputID = hashValue;
+  }
+});
+
+export function renderMovies(movies) {
   if (!movies) {
     console.log("movies가 존재하지 않습니다!");
     return;
   }
   for (const movie of movies) {
-    // console.dir(movie);
-    // const aTag = document.createElement("a");
-    // aTag.setAttribute("href", "");  라우트 배우고 imdb 로 보내야 될듯
+    const imdbID = movie.imdbID;
+    const aTag = document.createElement("a");
+    aTag.setAttribute("href", `/#${imdbID}`);
     const el = document.createElement("div");
     el.classList.add("movie");
 
     // Type 2
     const h1El = document.createElement("h1");
     h1El.textContent = movie.Title;
-    h1El.addEventListener("click", () => {
-      console.log(movie.Title);
-    });
-    const imgEl = document.createElement("img");
-    imgEl.src = movie.Poster;
+    let imgEl;
+    if (movie.Poster !== "N/A") {
+      imgEl = document.createElement("img");
+      imgEl.src = movie.Poster;
+    } else {
+      imgEl = document.createElement("div");
+      imgEl.innerText = "No image";
+      imgEl.classList.add("no-poster");
+    }
     el.append(h1El, imgEl);
-
-    moviesEl.append(el);
+    aTag.append(el);
+    moviesEl.append(aTag);
   }
+  moreBtnEl.classList.remove("hidden");
 }
+
 // 무비 리스트 초기화 함수
-function initMovies() {
+export function initMovies() {
   moviesEl.innerHTML = ""; // 영화 리스트 초기화
   page = 1; // page 초기화
+  moreBtnEl.classList.add("hidden"); // more버튼 가리기
+}
+export function initDetails() {
+  movieDetailEl.innerHTML = "";
 }
 
-async function getMovies(
+export async function getMovies(
   searchText = "avengers",
   type = "movie",
   y = "",
@@ -64,7 +121,7 @@ async function getMovies(
   return movies;
 }
 ////////////////////// 이벤트 리스너 등록
-// 더보기 버튼 클릭!
+// 더보기 버튼 핸들러
 const handleMoreBtn = async () => {
   let type = searchGenreEl.value;
   let y = searchYearEl.value;
@@ -75,12 +132,14 @@ const handleMoreBtn = async () => {
 
 moreBtnEl.addEventListener("click", handleMoreBtn);
 
+//검색버튼핸들러
 searchBtnEl.addEventListener("click", async (event) => {
   event.preventDefault(); // 새로고침 방지
 
   searchText = searchTextEl.value;
   searchTextEl.value = "";
   initMovies(); // 영화 리스트 초기화
+  initDetails();
 
   let type = searchGenreEl.value;
   let y = searchYearEl.value;
@@ -98,14 +157,37 @@ searchBtnEl.addEventListener("click", async (event) => {
   }
 });
 
+// 최초 영화 호출!
 (async () => {
-  // 최초 영화 호출!
+  console.log("최초영화호출");
   const movies = await getMovies();
-  page += 1;
   renderMovies(movies);
+  page += 1;
 })();
-
-console.dir(searchGenreEl[0]);
 /// body clcik
 const bodyEl = document.querySelector("body");
 bodyEl.addEventListener("click", () => {});
+
+const detectBottom = () => {
+  console.log("detectBottom 작동");
+  let scrollTop = document.documentElement.scrollTop;
+  let innerHeight = window.innerHeight;
+  let bodyScrollHeight = document.body.scrollHeight;
+
+  if (scrollTop + innerHeight >= bodyScrollHeight) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+window.addEventListener(
+  "scroll",
+  _.throttle(() => {
+    if (detectBottom() && infiniteScroll) {
+      // 최하단에 도착하면 more 버튼 작동!
+      console.log("more 작동!");
+      handleMoreBtn();
+    }
+  }, 1000)
+);

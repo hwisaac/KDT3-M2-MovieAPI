@@ -12,8 +12,8 @@ const releasedEl = document.querySelector(".container .released");
 const runtimeEl = document.querySelector(".container .runtime");
 const countryEl = document.querySelector(".container .country");
 
-const getOneMovie = async () => {
-  const id = "tt1285016";
+const getOneMovie = async (id = "tt1285016") => {
+  // const id = "tt1285016";
   const url = `https://omdbapi.com/?apikey=7035c60c&i=${id}`;
 
   // console.log(url);
@@ -40,7 +40,8 @@ const renderOneMovie = async (movieData) => {
     Runtime,
   } = movieData;
   // console.log(movieData);
-  posterEl.style.backgroundImage = `url(${Poster})`;
+  console.log(Poster);
+  // posterEl.style.backgroundImage = `url(${Poster})`;
   titleEl.textContent = Title;
   plotEl.textContent = Plot;
 
@@ -60,8 +61,7 @@ const renderOneMovie = async (movieData) => {
   countryEl.textContent = Country;
 };
 
-(async () => {
-  // 최초 영화 호출!
-  const movieData = await getOneMovie();
-  renderOneMovie(movieData);
-})();
+// (async () => {
+//   const movieData = await getOneMovie();
+//   renderOneMovie(movieData);
+// })();
