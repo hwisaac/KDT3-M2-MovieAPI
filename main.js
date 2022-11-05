@@ -36,7 +36,7 @@ export let page = 1;
 
 //해쉬 바뀔 때 라우팅 효과 주기
 window.addEventListener("hashchange", () => {
-  let hashValue = location.hash;
+  let hashValue = location.hash.replace("/MovieAPI/", "");
   console.log("해쉬값 ", hashValue);
   // console.log("해쉬값 ", hashValue);
   hashValue = hashValue.slice(1);
@@ -87,7 +87,7 @@ export function renderMovies(movies) {
   for (const movie of movies) {
     const imdbID = movie.imdbID;
     const aTag = document.createElement("a");
-    aTag.setAttribute("href", `/#${imdbID}`);
+    aTag.setAttribute("href", `/MovieAPI/#${imdbID}`);
     const el = document.createElement("div");
     el.classList.add("movie");
 
@@ -141,12 +141,12 @@ export async function getMovies(
 export const handleMoreBtn = async () => {
   let type = genreSelectBtn.innerText;
   let y = yearSelectBtn.innerText === "All" ? "" : yearSelectBtn.innerText;
-  moreLoadingEl.classList.remove("hidden");
+  moreLoadingEl.classList.remove("hidden"); // loading 애니메이션 시작
 
   page += 1;
-  const movies = await getMovies(searchText, type, y, page);
-  renderMovies(movies);
-  moreLoadingEl.classList.add("hidden");
+  const movies = await getMovies(searchText, type, y, page); // 데이터 불러오고 (시간걸림)
+  renderMovies(movies); // 데이터 표시
+  moreLoadingEl.classList.add("hidden"); // loading 애니메이션 종료
 };
 
 moreBtnEl.addEventListener("click", handleMoreBtn);
