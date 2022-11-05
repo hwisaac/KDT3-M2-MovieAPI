@@ -26,44 +26,192 @@
       referrerpolicy="no-referrer"></script>
     <!-- <script defer type="module" src="./src/js/movie.js"></script> -->
     <!-- main.js 스크립트 -->
+    <script defer type="module" src="./src/js/searchBar.js"></script>
     <script defer type="module" src="./main.js"></script>
   </head>
-  <body>
-    <header class="btn-group">
-      <a class="btn btn-light" href="#search">search</a>
-      <a class="btn btn-light" href="#movie">movie</a>
-      <a class="btn btn-light" href="#about" class="hidden">about</a>
+  <body class="bg-light">
+    <!-- 헤더 네비게이션 -->
+    <header class="container">
+      <nav class="navbar navbar-expand-sm">
+        <div class="container-fluid">
+          <a class="navbar-brand mb-0 h1" href="#">
+            <img src="./src/img/movie.png" class="movie-icon" alt="" />
+            OMDB API</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="/#search"
+                  id="navSearch"
+                  >Search</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/#movie" id="navMovie">Movie</a>
+              </li>
+              <li class="nav-item hidden">
+                <a href="/#about" class="nav-link" id="navAbout">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
 
-    <form action="/" class="search-bar">
-      <input class="search__text" type="search" />
-      <div class="btn btn-primary search__btn">Search</div>
+    <!-- searchbar -->
+    <div class="container searchbar-container">
+      <div id="searchBar" class="row">
+        <div class="col d-flex align-items-center">
+          <div class="input-group mb-3">
+            <!-- 검색어 입력  -->
+            <input
+              type="text"
+              class="form-control"
+              id="searchText"
+              placeholder="Search for the movie title"
+              aria-label="Recipient's username"
+              aria-describedby="searchBtn" />
+            <!-- 장르선택버튼  -->
+            <div
+              class="btn btn-outline-secondary dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              id="genreSelectBtn">
+              movie
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <span class="dropdown-item genre-select" data-value="movie"
+                  >movie</span
+                >
+              </li>
+              <li>
+                <span class="dropdown-item genre-select" data-value="series"
+                  >series</span
+                >
+              </li>
+              <li>
+                <span class="dropdown-item genre-select" data-value="episode"
+                  >episode</span
+                >
+              </li>
+            </ul>
+            <!-- 갯수선택버튼 -->
+            <div
+              class="btn btn-outline-secondary dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              id="numberSelectBtn">
+              10
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <span class="dropdown-item number-select" data-value="0"
+                  >10</span
+                >
+              </li>
+              <li>
+                <span class="dropdown-item number-select" data-value="1"
+                  >20</span
+                >
+              </li>
+              <li>
+                <span class="dropdown-item number-select" data-value="2"
+                  >30</span
+                >
+              </li>
+            </ul>
+            <!-- 년도 선택 버튼  -->
+            <div
+              class="btn btn-outline-secondary dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              id="yearSelectBtn"
+              data-value="">
+              All
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end" id="yearSelectList">
+              <li>
+                <span class="dropdown-item year-select">All years</span>
+              </li>
+            </ul>
+            <!-- 검색버튼  -->
+            <button class="btn btn-dark" type="button" id="searchBtn">
+              Search
+            </button>
+          </div>
+        </div>
 
-      <select class="search__genre">
-        <option value="movie">movie</option>
-        <option value="series">series</option>
-        <option value="episode">episode</option>
-      </select>
-
-      <select class="search__number">
-        <option value="0">10</option>
-        <option value="1">20</option>
-        <option value="2">30</option>
-      </select>
-
-      <select class="search__year">
-        <option value="">All years</option>
-      </select>
-    </form>
-    <!-- 영화 상세페이지 -->
-    <div class="movie-detail"></div>
-    <div class="movies">
-      <!-- Movie items -->
+        <!-- <div class="col col-2 hidden">
+          <select class="search__genre form-select">
+            <option value="movie">movie</option>
+            <option value="series">series</option>
+            <option value="episode">episode</option>
+          </select>
+        </div>
+        <div class="col col-2 hidden">
+          <select class="search__number form-select">
+            <option value="0">10</option>
+            <option value="1">20</option>
+            <option value="2">30</option>
+          </select>
+        </div>
+        <div class="col col-2 hidden">
+          <select class="search__year form-select">
+            <option value="">All years</option>
+          </select>
+        </div> -->
+      </form>
     </div>
+
+    <!-- 영화상세페이지 스켈레톤  -->
+    <div class="skeletons hidden ">
+      
+      <div class="loading">
+        <div class="spinner-border" role="status">
+        </div>
+      </div>
+
+      <div class="skeleton poster"></div>
+      <div class="specs">
+        <div class="skeleton title"></div>
+        <div class="skeleton spec"></div>
+        <div class="skeleton plot"></div>
+        <div class="skeleton etc"></div>
+        <div class="skeleton etc"></div>
+        <div class="skeleton etc"></div>
+      </div>
+    </div>
+    <!-- 영화 상세페이지 -->
+    <div class="movie-detail container">
+    </div>
+
+    <!-- Movies 목록 -->
+    <div class="movies container" id="movies"></div>
 
     <!-- more 버튼 -->
     <div class="actions">
-      <div class="btn--more">More</div>
+      <div id="btnMore" class="btn btn-outline-dark"> 
+        <span class="more-text">More </span>
+        <div class="spinner-border spinner-border-sm hidden" role="status" id="moreLoading">
+        </div>
+      </div></div>
+    </div>
+
+    <div class="scroll-spy">
     </div>
   </body>
 </html>

@@ -1,4 +1,5 @@
 import { initMovies, movieDetailEl } from "../../main.js";
+const skeletonsEl = document.querySelector(".skeletons");
 
 export const getOneMovie = async (id = "tt1285016") => {
   const url = `https://omdbapi.com/?apikey=7035c60c&i=${id}&plot=full`;
@@ -12,6 +13,7 @@ export const getOneMovie = async (id = "tt1285016") => {
 
 // async 함수라서 return 하면 promise 객체가 된다.
 export default async function renderMovieDetail(inputID) {
+  skeletonsEl.classList.remove("hidden");
   let id;
   let movieData;
 
@@ -36,50 +38,56 @@ export default async function renderMovieDetail(inputID) {
     Production,
     Runtime,
   } = movieData;
-  const editedPoster = Poster.replace("SX300", "SX700");
-
-  console.log(movieData);
+  let editedPoster;
+  if (Poster === "N/A") {
+    editedPoster = `<img class="no-poster" src='./src/img/no-photo.png' alt="" />`;
+  } else {
+    editedPoster = `<img src="${Poster.replace("SX300", "SX700")}" alt="" />`;
+  }
 
   let rateLists = "";
-  console.log(Ratings);
 
   for (let i = 0; i < Ratings.length; i++) {
-    rateLists += `<img class="rating-img" src="./src/img/${Ratings[i].Source}.png"> ${Ratings[i].Value} `;
+    rateLists += `<div><img class="rating-img" src="./src/img/${Ratings[i].Source}.png"> ${Ratings[i].Value} </div>`;
   }
-  movieDetailEl.innerHTML = `<div class="container">
-    <img src="${editedPoster}" class="poster"></div>
-    <div class="movie-info">
-      <h1 class="title">${Title}</h1>
-      <div class="short-info">
-        <div class="released">${Released}</div>
-        <div class="runtime">${Runtime}</div>
-        <div class="country">${Country}</div>
-      </div>
-      <div class="plot">${Plot}</div>
-      <div class="item-ratings">
-        <h2>Ratings</h2>
-        <div class="ratings">${rateLists}</div>
-      </div>
-      <div class="item-actors">
-        <h2>Actors</h2>
-        <div class="actors">${Actors}</div>
-      </div>
-      <div class="item-director">
-        <h2>Director</h2>
-        <div class="director">${Director}</div>
-      </div>
-      <div class="item-production">
-        <h2>Production</h2>
-        <div class="production">${Production}</div>
-      </div>
-      <div class="item-genre">
-        <h2>Genre</h2>
-        <div class="genre">${Genre}</div>
-      </div>
+  let detailString = `<div class="movie-details">
+<div class="poster">
+  ${editedPoster}
+</div>
+<div class="specs">
+  <div class="title">${Title}</div>
+  <div class="labels">
+    <span>${Released}</span>
+    <span>${Runtime}</span>
+    <span>${Country}</span>
+  </div>
+  <div class="plot">${Plot}</div>
+  <div class="ratings">
+    <h3>Ratings</h3>
+    <div class="rate-lists">
+    ${rateLists}
     </div>
-  </div>`;
-  if (Poster === "N/A") {
-    const noPostEl = document.querySelector(".movie-detail .container .poster");
-    noPostEl.src = "";
-  }
+  </div>
+  <div>
+    <h3>Actors</h3>
+    ${Actors}
+  </div>
+  <div>
+    <h3>Director</h3>
+    ${Director}
+  </div>
+  <div>
+    <h3>Production</h3>
+    ${Production}
+  </div>
+  <div>
+    <h3>Genre</h3>
+    ${Genre}
+  </div>
+</div>
+</div>
+`;
+
+  movieDetailEl.innerHTML = detailString;
+  skeletonsEl.classList.add("hidden");
 }
