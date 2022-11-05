@@ -178,7 +178,13 @@
     </div>
 
     <!-- 영화상세페이지 스켈레톤  -->
-    <div class="skeletons hidden">
+    <div class="skeletons hidden ">
+      
+      <div class="loading">
+        <div class="spinner-border" role="status">
+        </div>
+      </div>
+
       <div class="skeleton poster"></div>
       <div class="specs">
         <div class="skeleton title"></div>
@@ -198,7 +204,11 @@
 
     <!-- more 버튼 -->
     <div class="actions">
-      <div id="btnMore" class="btn btn-danger">More</div>
+      <div id="btnMore" class="btn btn-outline-dark"> 
+        <span class="more-text">More </span>
+        <div class="spinner-border spinner-border-sm hidden" role="status" id="moreLoading">
+        </div>
+      </div></div>
     </div>
 
     <div class="scroll-spy">

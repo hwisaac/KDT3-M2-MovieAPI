@@ -22,6 +22,7 @@ const scrollSpyEl = document.querySelector(".scroll-spy");
 const searchGenreEl = document.querySelector(".search__genre");
 const searchNumberEl = document.querySelector(".search__number");
 const searchYearEl = document.querySelector(".search__year");
+const moreLoadingEl = document.querySelector("#moreLoading");
 let infiniteScroll = true; // 무한스크롤 작동 여부
 
 export let page = 1;
@@ -43,38 +44,36 @@ window.addEventListener("hashchange", () => {
     // 홈으로 간경우 서치페이지 랜더링해라
     renderSearchPage();
     searchBarEl.classList.remove("hidden");
-    setTimeout(() => {
-      infiniteScroll = true;
-    }, 1000);
+    infiniteScroll = true;
+    setTimeout(() => {}, 500);
   } else if (hashValue === "search") {
     // 검색(=홈)으로 간경우 서치페이지 랜더링해라
     renderSearchPage();
     searchBarEl.classList.remove("hidden");
-    setTimeout(() => {
-      infiniteScroll = true;
-    }, 1000);
+    infiniteScroll = true;
+    setTimeout(() => {}, 500);
   } else if (hashValue === "movie") {
     // 무비로 간경우 무비디테일 랜더링해라
+    infiniteScroll = false;
     initMovies();
     initDetails();
     searchBarEl.classList.add("hidden");
-    infiniteScroll = false;
     if (inputID) {
       console.log("inputID 로 랜더링");
       inputID = inputID.replaceAll("#", "");
       renderMovieDetail(inputID);
     }
   } else if (hashValue === "about") {
+    infiniteScroll = false;
     // about로 가면 aboutpage를 랜더링해라
     renderAboutPage();
     searchBarEl.classList.add("hidden");
-    infiniteScroll = false;
   } else {
     // ID 해쉬를 받은 경우
+    infiniteScroll = false;
 
     renderMovieDetail();
     searchBarEl.classList.add("hidden");
-    infiniteScroll = false;
     inputID = hashValue;
   }
 });
@@ -142,10 +141,12 @@ export async function getMovies(
 export const handleMoreBtn = async () => {
   let type = genreSelectBtn.innerText;
   let y = yearSelectBtn.innerText === "All" ? "" : yearSelectBtn.innerText;
+  moreLoadingEl.classList.remove("hidden");
 
   page += 1;
   const movies = await getMovies(searchText, type, y, page);
   renderMovies(movies);
+  moreLoadingEl.classList.add("hidden");
 };
 
 moreBtnEl.addEventListener("click", handleMoreBtn);
