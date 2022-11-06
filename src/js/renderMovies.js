@@ -9,7 +9,7 @@ export function renderMovies(movies) {
   for (const movie of movies) {
     const imdbID = movie.imdbID;
     const aTag = document.createElement("a");
-    aTag.setAttribute("href", `/#${imdbID}`);
+    aTag.setAttribute("href", `/MovieAPI/#${imdbID}`);
     const el = document.createElement("div");
     el.classList.add("movie");
 

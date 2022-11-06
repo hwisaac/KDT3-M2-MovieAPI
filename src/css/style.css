@@ -41,12 +41,10 @@ a {
   width: 100%;
 }
 .movie .description {
-  /* display: none; */
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  /* height: 30%; */
   margin: auto;
   text-align: center;
   padding: 10px 0;
@@ -75,10 +73,7 @@ a {
   right: 0;
   top: 0;
   bottom: 0;
-  /* height: 100%; */
   margin: 30% auto;
-  /* height: 50%; */
-  /* border: 1px solid red; */
   justify-self: center;
   align-self: center;
   opacity: 0.3;
@@ -93,9 +88,6 @@ a {
 
 #btnMore {
   margin: 50px;
-  /* position: fixed;
-  bottom: 50px;
-  right: 50px; */
 }
 
 .red {
@@ -151,7 +143,6 @@ a {
 
 /* 무비디테일즈 스타일 */
 .movie-details {
-  /* display: flex; */
   color: #333;
 }
 .movie-details .poster {
@@ -222,8 +213,4 @@ a {
 }
 .scroll-spy {
   height: 100px;
-  /* border: 3px solid red; */
-}
-
-.movies.no-movies {
 }
