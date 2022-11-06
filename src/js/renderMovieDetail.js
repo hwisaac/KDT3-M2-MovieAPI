@@ -1,4 +1,6 @@
-import { initMovies, movieDetailEl } from "../../main.js";
+import { movieDetailEl } from "./main.js";
+import { initMovies, initDetails } from "./initialize.js";
+
 const skeletonsEl = document.querySelector(".skeletons");
 
 export const getOneMovie = async (id = "tt1285016") => {
