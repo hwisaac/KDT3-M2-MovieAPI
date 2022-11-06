@@ -7,15 +7,18 @@ body {
 a {
   text-decoration: none;
 }
-.btn {
-  /* border-radius: 100px; */
-}
+
 .movies {
   display: grid;
   justify-content: center;
   gap: 10px;
-  padding: 50px 10px;
-  grid-template-columns: repeat(5, 1fr);
+  padding: 20px;
+  margin: 50px 0;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+.border-dotted {
+  border-radius: 10px;
+  border: 3px dotted #ccc;
 }
 .movie {
   --size: 200px;
@@ -25,6 +28,10 @@ a {
   position: relative;
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.1);
+  transition: 0.2s;
+}
+.movie:hover {
+  border: 4px solid orange;
 }
 .movie-icon {
   width: 40px;
@@ -144,7 +151,7 @@ a {
 
 /* 무비디테일즈 스타일 */
 .movie-details {
-  display: flex;
+  /* display: flex; */
   color: #333;
 }
 .movie-details .poster {
@@ -216,4 +223,7 @@ a {
 .scroll-spy {
   height: 100px;
   /* border: 3px solid red; */
+}
+
+.movies.no-movies {
 }

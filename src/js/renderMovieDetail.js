@@ -52,7 +52,7 @@ export default async function renderMovieDetail(inputID) {
   for (let i = 0; i < Ratings.length; i++) {
     rateLists += `<div><img class="rating-img" src="./src/img/${Ratings[i].Source}.png"> ${Ratings[i].Value} </div>`;
   }
-  let detailString = `<div class="movie-details">
+  let detailString = `<div class="movie-details d-lg-flex d-block">
 <div class="poster">
   ${editedPoster}
 </div>

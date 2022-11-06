@@ -17,7 +17,7 @@
       integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
       crossorigin="anonymous"></script>
     <!-- 스타일 style.css -->
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./src/css/style.css" />
     <!-- lodash -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
@@ -52,7 +52,7 @@
             <ul class="navbar-nav me-auto">
               <li class="nav-item">
                 <a
-                  class="nav-link active"
+                  class="nav-link"
                   aria-current="page"
                   href="/#search"
                   id="navSearch"
@@ -71,7 +71,7 @@
       </nav>
     </header>
 
-    <!-- searchbar -->
+    <!-- 검색 컨테이너  -->
     <div class="container searchbar-container">
       <div id="searchBar" class="row">
         <div class="col d-flex align-items-center">
@@ -154,26 +154,6 @@
             </button>
           </div>
         </div>
-
-        <!-- <div class="col col-2 hidden">
-          <select class="search__genre form-select">
-            <option value="movie">movie</option>
-            <option value="series">series</option>
-            <option value="episode">episode</option>
-          </select>
-        </div>
-        <div class="col col-2 hidden">
-          <select class="search__number form-select">
-            <option value="0">10</option>
-            <option value="1">20</option>
-            <option value="2">30</option>
-          </select>
-        </div>
-        <div class="col col-2 hidden">
-          <select class="search__year form-select">
-            <option value="">All years</option>
-          </select>
-        </div> -->
       </form>
     </div>
 
@@ -198,11 +178,12 @@
     </div>
 
     <!-- Movies 목록 -->
-    <div class="movies container" id="movies"></div>
+    <div class="movies container border-dotted" id="movies">
+    </div>
 
     <!-- more 버튼 -->
     <div class="actions">
-      <div id="btnMore" class="btn btn-outline-dark"> 
+      <div id="btnMore" class="btn btn-outline-dark hidden"> 
         <span class="more-text">More </span>
         <div class="spinner-border spinner-border-sm hidden" role="status" id="moreLoading">
         </div>
@@ -210,6 +191,8 @@
     </div>
 
     <div class="scroll-spy">
+    </div>
+
     </div>
   </body>
 </html>
