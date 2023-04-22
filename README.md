@@ -1,6 +1,8 @@
 # 배포주소
 
-배포: https://hwisaac.github.io/MovieAPI/#
+배포: https://hwisaac.github.io/KDT3-M2-MovieAPI/
+
+<img src="readMeImages/2023-04-23-00-06-16.png" width="400">
 ## 사용
 
 - html/css/js
